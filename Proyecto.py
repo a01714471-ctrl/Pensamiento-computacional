@@ -1,56 +1,63 @@
 """
-Avance 4
-Algoritmo: Reporte de Gastos con operadores aritméticos
+Avance 5
 Descripción:
-Este algoritmo permite al usuario ingresar tres montos de gastos realizados.
-Calcula información relevante usando únicamente operadores aritméticos y estructuras condicionales.
-Incluye cálculo de total, promedio, mayor, menor y clasificación individual de cada gasto.
+Este programa permite al usuario registrar la cantidad de gastos que desee.
+Cada gasto se analiza para calcular el total, el promedio, el mayor y el menor,
+además del porcentaje y la clasificación de cada gasto.
+Se usan funciones, operadores aritméticos, condicionales y ciclo while sin break.
 """
 
-def total_gastos(g1, g2, g3):
-    return g1 + g2 + g3
+def sumar(total,gasto):
+    return total+gasto
 
-def promedio_gastos(total):
-    return total / 3
+def contar(cantidad):
+    return cantidad+1
 
-def mayor_gasto(g1, g2, g3):
-    mayor = g1
-    if g2 > mayor:
-        mayor = g2
-    if g3 > mayor:
-        mayor = g3
-    return mayor
+def promedio(total,cantidad):
+    return total/cantidad
 
-def menor_gasto(g1, g2, g3):
-    menor = g1
-    if g2 < menor:
-        menor = g2
-    if g3 < menor:
-        menor = g3
-    return menor
+def mayor(actual,gasto):
+    if gasto>actual:
+        return gasto
+    else:
+        return actual
 
-def porcentaje_gasto(gasto, total):
-    return (gasto / total) * 100
+def menor(actual,gasto):
+    if gasto<actual:
+        return gasto
+    else:
+        return actual
+
+def porcentaje_gasto(gasto,total):
+    return (gasto/total)*100
 
 def clasificar_gasto(gasto):
-    if gasto < 150:
+    if gasto<150:
         return "Bajo"
-    elif gasto <= 500:
+    elif gasto<=500:
         return "Medio"
     else:
         return "Alto"
 
-gasto1 = float(input("Ingrese el primer gasto: "))
-gasto2 = float(input("Ingrese el segundo gasto: "))
-gasto3 = float(input("Ingrese el tercer gasto: "))
-total = total_gastos(gasto1, gasto2, gasto3)
-promedio = promedio_gastos(total)
-mayor = mayor_gasto(gasto1, gasto2, gasto3)
-menor = menor_gasto(gasto1, gasto2, gasto3)
-print("Total de gastos:", total)
-print("Promedio de gastos: %.2f" %promedio)
-print("Mayor gasto:", mayor)
-print("Menor gasto:", menor)
-print("Porcentaje gasto 1: %.2f" %(porcentaje_gasto(gasto1, total)), "% Clasificación:", clasificar_gasto(gasto1))
-print("Porcentaje gasto 2: %.2f" %(porcentaje_gasto(gasto2, total)), "% Clasificación:", clasificar_gasto(gasto2))
-print("Porcentaje gasto 3: %.2f" %(porcentaje_gasto(gasto3, total)), "% Clasificación:", clasificar_gasto(gasto3))
+gasto=float(input("Ingrese un gasto: "))
+total=gasto
+cantidad=1
+mayor_gasto=gasto
+menor_gasto=gasto
+print("Clasificación del gasto:",clasificar_gasto(gasto))
+continuar=input("¿Desea introducir otro gasto? (si/no): ").lower()
+
+while continuar=="si":
+    gasto=float(input("Ingrese un gasto: "))
+    total=sumar(total,gasto)
+    cantidad=contar(cantidad)
+    mayor_gasto=mayor(mayor_gasto,gasto)
+    menor_gasto=menor(menor_gasto,gasto)
+    print("Clasificación del gasto:", clasificar_gasto(gasto))
+    continuar=input("¿Desea introducir otro gasto? (si/no): ").lower()
+
+print("\nTotal de gastos:", total)
+print("Cantidad de gastos:", cantidad)
+print("Promedio de gastos: %.2f" % promedio(total, cantidad))
+print("Mayor gasto:", mayor_gasto)
+print("Menor gasto:", menor_gasto)
