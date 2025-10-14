@@ -67,3 +67,8 @@ Mostrar mensaje de cierre.
 Terminar el programa.
 
 Fin
+
+# Referencias al API de Python
+
+- "datetime" (https://docs.python.org/3/library/datetime.html): se usa para obtener la fecha actual de cada gasto.
+- "csv" (https://docs.python.org/3/library/csv.html): se usa para guardar y leer los gastos en un archivo CSV.
