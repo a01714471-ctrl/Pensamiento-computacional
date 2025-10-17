@@ -72,3 +72,4 @@ Fin
 
 - "datetime" (https://docs.python.org/3/library/datetime.html): se usa para obtener la fecha actual de cada gasto.
 - "csv" (https://docs.python.org/3/library/csv.html): se usa para guardar y leer los gastos en un archivo CSV.
+- "os" (https://docs.python.org/3/library/os.html): se usa para verificar si el archivo CSV existe antes de cargar los datos almacenados.
