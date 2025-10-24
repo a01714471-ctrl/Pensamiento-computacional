@@ -1,53 +1,59 @@
 """
 Proyecto Final - GESTOR DE GASTOS
 Descripción:
-Este programa permite registrar, consultar y analizar gastos guardados en un archivo CSV.
-Cada gasto incluye fecha, categoría, descripción, monto y clasificación.
-Calcula total, promedio, mayor, menor y porcentaje de cada gasto.
-Incluye funciones, condicionales, listas anidadas, ciclos while y for, 
-y un menú interactivo.
+Este programa permite registrar, consultar y analizar gastos guardados
+en un archivo CSV. Cada gasto incluye fecha, categoría, descripción,
+monto y clasificación. Calcula total, promedio, mayor, menor y porcentaje
+de cada gasto. Incluye funciones, condicionales, listas anidadas, ciclos
+while y for, y un menú interactivo.
 """
 
 import csv  # Para guardar y leer gastos en CSV
-import os   # Para verificar existencia del archivo CSV
+import os  # Para verificar existencia del archivo CSV
 from datetime import datetime  # Para obtener la fecha actual
 
 
 def sumar(total, gasto):
+    """Suma el valor del nuevo gasto al total acumulado."""
     return total + gasto
 
 
 def contar(cantidad):
+    """Aumenta en una unidad el contador de gastos registrados."""
     return cantidad + 1
 
 
 def promedio(total, cantidad):
+    """Calcula el promedio dividiendo el total entre la cantidad de gastos."""
     return total / cantidad
 
 
 def mayor(actual, gasto):
+    """Compara dos valores y devuelve el mayor."""
     if gasto > actual:
         return gasto
     return actual
 
 
 def menor(actual, gasto):
+    """Compara dos valores y devuelve el menor."""
     if gasto < actual:
         return gasto
     return actual
 
 
 def porcentaje_gasto(gasto, total):
+    """Calcula el porcentaje que representa un gasto respecto al total."""
     return (gasto / total) * 100
 
 
 def clasificar_gasto(gasto):
+    """Asigna una clasificación al gasto según su monto."""
     if gasto < 150:
         return "Bajo"
     elif gasto <= 500:
         return "Medio"
-    else:
-        return "Alto"
+    return "Alto"
 
 
 def validar_gasto():
@@ -77,12 +83,14 @@ def cargar_gastos():
                 if len(row) == 5:
                     fecha, categoria, descripcion, monto, clasificacion = row
                     monto = float(monto)
-                    gastos.append([fecha, categoria, descripcion, monto, clasificacion])
+                    gastos.append(
+                        [fecha, categoria, descripcion, monto, clasificacion]
+                    )
     return gastos
 
 
 def registrar_gasto(gastos, total, cantidad, mayor_gasto, menor_gasto):
-    """Registra un gasto y actualiza totales."""
+    """Registra un gasto y actualiza los totales."""
     fecha = datetime.now().strftime("%d/%m/%Y")  # Formato día/mes/año
 
     categoria = input(
@@ -121,27 +129,24 @@ def mostrar_historial(gastos):
 
     print("HISTORIAL DE GASTOS")
 
-    for i in range(len(gastos)):
-        print("Gasto", i + 1)
-        print("Fecha:", gastos[i][0])
-        print("Categoría:", gastos[i][1])
-        print("Descripción:", gastos[i][2])
-        print("Monto: %.2f" % gastos[i][3])
-        print("Clasificación:", gastos[i][4])
+    for i, gasto in enumerate(gastos, start=1):
+        print(f"Gasto {i}")
+        print(f"Fecha: {gasto[0]}")
+        print(f"Categoría: {gasto[1]}")
+        print(f"Descripción: {gasto[2]}")
+        print(f"Monto: {gasto[3]:.2f}")
+        print(f"Clasificación: {gasto[4]}")
 
     print("\n")
 
 
 def mostrar_reporte(gastos):
-    """Calcula y muestra total, promedio, mayor, menor y porcentaje por gasto."""
+    """Calcula y muestra total, promedio, mayor, menor y porcentaje."""
     if len(gastos) == 0:
         print("No hay gastos registrados.\n")
         return
 
-    total = 0
-    for g in gastos:
-        total += g[3]
-
+    total = sum(g[3] for g in gastos)
     mayor_gasto = gastos[0][3]
     menor_gasto = gastos[0][3]
 
@@ -150,17 +155,17 @@ def mostrar_reporte(gastos):
         menor_gasto = menor(menor_gasto, gastos[i][3])
 
     print("\nREPORTE DE GASTOS")
-    print("Total de gastos: %.2f" % total)
-    print("Promedio de gastos: %.2f" % promedio(total, len(gastos)))
-    print("Mayor gasto: %.2f" % mayor_gasto)
-    print("Menor gasto: %.2f" % menor_gasto)
+    print(f"Total de gastos: {total:.2f}")
+    print(f"Promedio de gastos: {promedio(total, len(gastos)):.2f}")
+    print(f"Mayor gasto: {mayor_gasto:.2f}")
+    print(f"Menor gasto: {menor_gasto:.2f}")
     print("\nDetalle de cada gasto:")
 
-    for i in range(len(gastos)):
-        pct = porcentaje_gasto(gastos[i][3], total)
+    for i, gasto in enumerate(gastos, start=1):
+        pct = porcentaje_gasto(gasto[3], total)
         print(
-            "Gasto", i + 1, ": %.2f (%.2f%%) - Clasificación: %s"
-            % (gastos[i][3], pct, gastos[i][4])
+            f"Gasto {i}: {gasto[3]:.2f} ({pct:.2f}%) - "
+            f"Clasificación: {gasto[4]}"
         )
 
     print()
@@ -188,9 +193,13 @@ while opcion != "4":
     opcion = input("Seleccione una opción: ")
 
     if opcion == "1":
-        gastos, total, cantidad, mayor_gasto, menor_gasto = registrar_gasto(
-            gastos, total, cantidad, mayor_gasto, menor_gasto
-        )
+        (
+            gastos,
+            total,
+            cantidad,
+            mayor_gasto,
+            menor_gasto,
+        ) = registrar_gasto(gastos, total, cantidad, mayor_gasto, menor_gasto)
 
     elif opcion == "2":
         mostrar_historial(gastos)
@@ -203,5 +212,3 @@ while opcion != "4":
 
     else:
         print("Opción no válida. Intente de nuevo.\n")
-
-
